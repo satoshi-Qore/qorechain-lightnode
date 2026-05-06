@@ -11,6 +11,8 @@ import (
 	"sync"
 
 	"golang.org/x/crypto/argon2"
+
+	"github.com/qorechain/qorechain-lightnode/internal/pqc"
 )
 
 const (
@@ -146,8 +148,11 @@ func (b *EncryptedFileBackend) Create(name string, keyType KeyType) (KeyInfo, er
 	var pubkey, privkey []byte
 	switch keyType {
 	case KeyTypeDilithium5:
-		// Will be implemented when PQC package is wired
-		return KeyInfo{}, fmt.Errorf("dilithium5 key generation requires PQC library")
+		var keygenErr error
+		pubkey, privkey, keygenErr = pqc.DilithiumKeygen()
+		if keygenErr != nil {
+			return KeyInfo{}, fmt.Errorf("dilithium5 keygen: %w", keygenErr)
+		}
 	default:
 		return KeyInfo{}, fmt.Errorf("unsupported key type: %s", keyType)
 	}
