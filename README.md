@@ -1,5 +1,7 @@
 # QoreChain Light Node
 
+**v3.0.0** — aligned with `qorechain-core@v3.0.0`.
+
 Light node client for the QoreChain network. Provides two editions:
 
 - **SX (Server eXperience)** — headless daemon with CLI for server deployments
