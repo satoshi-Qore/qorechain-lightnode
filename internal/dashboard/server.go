@@ -48,6 +48,9 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("GET /api/bridge", s.api.HandleBridge)
 	s.mux.HandleFunc("GET /api/tokenomics", s.api.HandleTokenomics)
 	s.mux.HandleFunc("GET /api/settings", s.api.HandleSettings)
+	// Alias so the embedded web UI's fetch("/api/config") resolves to the
+	// same handler — both names refer to the operator's runtime config.
+	s.mux.HandleFunc("GET /api/config", s.api.HandleSettings)
 
 	// WebSocket endpoint for real-time updates
 	s.mux.HandleFunc("GET /ws", s.hub.HandleWS)

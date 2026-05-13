@@ -1,6 +1,6 @@
 # QoreChain Light Node
 
-**v3.0.0** — aligned with `qorechain-core@v3.0.0`.
+**v3.0.2** — aligned with `qorechain-core@v3.0.0` (hotfix release).
 
 Light node client for the QoreChain network. Provides two editions:
 

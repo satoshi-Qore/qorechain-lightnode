@@ -151,7 +151,7 @@ func keysCreateCmd() *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&keyType, "type", "secp256k1", "key type: secp256k1, ed25519, dilithium5")
+	cmd.Flags().StringVar(&keyType, "type", "dilithium5", "key type (currently supported: dilithium5)")
 	return cmd
 }
 
@@ -208,7 +208,7 @@ func keysImportCmd() *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&keyType, "type", "secp256k1", "key type: secp256k1, ed25519, dilithium5")
+	cmd.Flags().StringVar(&keyType, "type", "dilithium5", "key type (currently supported: dilithium5)")
 	return cmd
 }
 

@@ -144,7 +144,10 @@ func (b *EncryptedFileBackend) Create(name string, keyType KeyType) (KeyInfo, er
 		return KeyInfo{}, fmt.Errorf("key %q already exists", name)
 	}
 
-	// Generate keypair based on type
+	// Generate keypair based on type. Currently only Dilithium-5 is
+	// implemented for keygen; classical curves (secp256k1, ed25519) are
+	// only supported via Import — a follow-up release will add native
+	// keygen for those.
 	var pubkey, privkey []byte
 	switch keyType {
 	case KeyTypeDilithium5:
@@ -153,8 +156,10 @@ func (b *EncryptedFileBackend) Create(name string, keyType KeyType) (KeyInfo, er
 		if keygenErr != nil {
 			return KeyInfo{}, fmt.Errorf("dilithium5 keygen: %w", keygenErr)
 		}
+	case KeyTypeSecp256k1, KeyTypeEd25519:
+		return KeyInfo{}, fmt.Errorf("%s keygen is not yet implemented; use 'keys import' to bring an existing key, or 'keys create --type dilithium5' for the post-quantum default", keyType)
 	default:
-		return KeyInfo{}, fmt.Errorf("unsupported key type: %s", keyType)
+		return KeyInfo{}, fmt.Errorf("unsupported key type: %s (supported: dilithium5)", keyType)
 	}
 
 	info := KeyInfo{
