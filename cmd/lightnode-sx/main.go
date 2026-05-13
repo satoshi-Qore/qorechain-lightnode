@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -15,7 +16,7 @@ import (
 	"github.com/qorechain/qorechain-lightnode/internal/keyring"
 )
 
-const version = "2.6.0"
+const version = "3.1.0"
 
 var (
 	cfgFile string
@@ -43,6 +44,8 @@ func main() {
 		rewardsCmd(),
 		networkCmd(),
 		versionCmd(),
+		selftestCmd(),
+		onboardCmd(),
 	)
 
 	if err := root.Execute(); err != nil {
@@ -68,11 +71,28 @@ func loadConfig() (config.Config, error) {
 }
 
 // startCmd runs the daemon until interrupted.
+//
+// On first launch (no config file present) it bails out with a friendly
+// pointer to the onboarding wizard instead of trying to run with empty
+// defaults. Operators who want to script around this can pass
+// --skip-onboarding-check.
 func startCmd() *cobra.Command {
-	return &cobra.Command{
+	var skipOnboardingCheck bool
+	cmd := &cobra.Command{
 		Use:   "start",
 		Short: "Start the SX light node daemon",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if !skipOnboardingCheck {
+				if _, err := os.Stat(cfgFile); errors.Is(err, os.ErrNotExist) {
+					fmt.Fprintf(os.Stderr, "No config file found at %s.\n\n", cfgFile)
+					fmt.Fprintf(os.Stderr, "Run 'lightnode-sx onboard' to set up the node interactively\n")
+					fmt.Fprintf(os.Stderr, "(PQC self-test + chain endpoint + private key).\n\n")
+					fmt.Fprintf(os.Stderr, "Or pass --skip-onboarding-check to start with defaults\n")
+					fmt.Fprintf(os.Stderr, "(local-only mode — no chain RPC connection).\n")
+					return fmt.Errorf("config file missing — onboarding required")
+				}
+			}
+
 			cfg, _ := loadConfig()
 			d, err := daemon.New(cfg)
 			if err != nil {
@@ -81,9 +101,15 @@ func startCmd() *cobra.Command {
 			defer d.Close()
 
 			fmt.Fprintf(os.Stderr, "QoreChain SX Light Node v%s starting...\n", version)
+			if cfg.RPCAddr == "" {
+				fmt.Fprintf(os.Stderr, "Running in LOCAL-ONLY mode (no chain RPC configured).\n")
+				fmt.Fprintf(os.Stderr, "Re-run 'lightnode-sx onboard' to connect to a chain.\n")
+			}
 			return d.Run(context.Background())
 		},
 	}
+	cmd.Flags().BoolVar(&skipOnboardingCheck, "skip-onboarding-check", false, "do not require config.toml at startup (allows local-only start)")
+	return cmd
 }
 
 // statusCmd prints node and light client status.
