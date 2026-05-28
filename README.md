@@ -1,6 +1,6 @@
 # QoreChain Light Node
 
-**v3.1.0** — aligned with `qorechain-core@v3.0.0`. Adds the `selftest` and `onboard` commands; the daemon now refuses to start without a config and points operators at the wizard.
+**v3.1.1** — aligned with `qorechain-core@v3.0.2`. Adds a PQC regression test suite (keygen, sign, verify, and tamper-detection) that guards the v3.0.2 signature-verification fix, and runs it in CI. No runtime behaviour change from v3.1.0.
 
 Light node client for the QoreChain network. Provides two editions:
 

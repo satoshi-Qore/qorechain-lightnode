@@ -31,6 +31,11 @@ jobs:
         env:
           LD_LIBRARY_PATH: ${{ github.workspace }}/lib/linux_amd64
 
+      - name: Test
+        run: CGO_ENABLED=1 go test ./...
+        env:
+          LD_LIBRARY_PATH: ${{ github.workspace }}/lib/linux_amd64
+
   lint:
     runs-on: ubuntu-latest
     steps:
