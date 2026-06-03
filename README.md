@@ -1,76 +1,168 @@
-# QoreChain Light Node
+# 🐙 QoreChain Light Node
 
-**v3.1.1** — aligned with `qorechain-core@v3.0.2`. Adds a PQC regression test suite (keygen, sign, verify, and tamper-detection) that guards the v3.0.2 signature-verification fix, and runs it in CI. No runtime behaviour change from v3.1.0.
+> Community-maintained fork by **Satoshi-Qore** for exploring, running, and supporting QoreChain light node infrastructure.
 
-Light node client for the QoreChain network. Provides two editions:
+![QoreChain](https://img.shields.io/badge/QoreChain-Light%20Node-blueviolet)
+![Post Quantum](https://img.shields.io/badge/Post--Quantum-Ready-success)
+![Docker](https://img.shields.io/badge/Docker-Supported-blue)
+![License](https://img.shields.io/badge/License-Apache%202.0-green)
 
-- **SX (Server eXperience)** — headless daemon with CLI for server deployments
-- **UX (User eXperience)** — embedded web dashboard with CLI for desktop use
+---
 
-## Features
+## 🚀 Overview
+
+QoreChain Light Node is a lightweight client for the QoreChain network.
+
+It is designed for users who want to contribute to network infrastructure without running a full validator. A light node can relay traffic, serve light client queries, contribute uptime, and participate in the QoreChain ecosystem.
+
+This fork is focused on:
+
+- Helping new users understand light node setup
+- Testing the SX and UX editions
+- Documenting community installation steps
+- Supporting QoreChain node operators
+- Tracking useful commands and troubleshooting notes
+
+---
+
+## 🧩 Editions
+
+QoreChain Light Node provides two editions:
+
+| Edition | Name | Best For |
+|---|---|---|
+| **SX** | Server eXperience | VPS / server deployments |
+| **UX** | User eXperience | Dashboard-based desktop or web use |
+
+---
+
+## ✨ Key Features
 
 - Header verification via skipping verification light client
 - Delegated staking with multi-validator split
 - Auto-compound rewards with configurable intervals
 - Reputation-aware validator rebalancing
-- Real-time network telemetry (validators, consensus, bridge, tokenomics)
+- Real-time network telemetry
 - On-chain registration with heartbeat liveness proofs
 - 3% block reward eligibility for active light nodes
-- Post-quantum cryptography support (Dilithium-5)
-- **Interactive onboarding wizard** that runs a PQC self-test, accepts the chain RPC endpoint, and imports or generates a Dilithium-5 validator key
-- **Local-only mode** so the node can prove its PQC stack works even before the chain itself is deployed
-- **Live PQC self-test** — `lightnode-sx selftest` runs keygen → sign → verify → tamper-detection in under a second
+- Post-quantum cryptography support
+- Interactive onboarding wizard
+- Local-only mode for pre-mainnet testing
+- Live PQC self-test command
 
-## Quick Start
+---
 
-### First-time setup
+## ⚡ Quick Start
+
+### 1. Build SX edition
 
 ```bash
-# 1. Build (or pull the Docker image)
 CGO_ENABLED=1 go build -o build/lightnode-sx ./cmd/lightnode-sx/
+```
 
-# 2. Run the onboarding wizard — PQC self-test + endpoint + key prompts
+### 2. Run onboarding
+
+```bash
 build/lightnode-sx onboard
+```
 
-# 3. Start the daemon
+During onboarding, the wizard asks for:
+
+- Chain RPC endpoint
+- Private key or new key generation
+- Node configuration preferences
+
+### 3. Start the node
+
+```bash
 build/lightnode-sx start
 ```
 
-The wizard asks for:
-- **Chain RPC endpoint** — paste the URL (e.g. `https://rpc.qorechain.io:26657`), or leave blank to run in local-only mode while the chain itself is still being deployed.
-- **Private key** — paste a hex-encoded Dilithium-5 key, or type `g` to generate a fresh one on this node.
+---
 
-If you leave the endpoint blank the daemon will start in **local-only mode** — the PQC stack is fully exercised and the web dashboard shows a banner explaining the state. Re-run `onboard` once the chain is live to point at a real RPC.
-
-### Build from Source
+## 🐳 Docker Usage
 
 ```bash
-# SX edition (server daemon)
-CGO_ENABLED=1 go build -o build/lightnode-sx ./cmd/lightnode-sx/
-
-# UX edition (dashboard + daemon)
-CGO_ENABLED=1 go build -o build/lightnode-ux ./cmd/lightnode-ux/
+docker compose up lightnode-sx
 ```
 
-### Docker
+For the UX dashboard edition:
 
 ```bash
-docker compose up lightnode-sx    # server edition
-docker compose up lightnode-ux    # dashboard edition (port 8080)
+docker compose up lightnode-ux
 ```
 
-### Verify the PQC stack any time
+---
+
+## 🛡️ Verify PQC Stack
+
+Run the self-test command anytime:
 
 ```bash
 lightnode-sx selftest
 ```
 
-Runs 5 checks: keygen, sign, verify-valid, reject-tampered-sig, reject-tampered-msg.
+This checks:
 
-## Configuration
+- Key generation
+- Sign operation
+- Valid signature verification
+- Rejection of tampered signatures
+- Rejection of tampered messages
 
-See `config.example.toml` for all available options.
+---
 
-## License
+## 🛠️ Useful VPS Commands
+
+Check running containers:
+
+```bash
+docker ps
+```
+
+Start services:
+
+```bash
+docker compose up -d
+```
+
+View logs:
+
+```bash
+docker compose logs -f
+```
+
+Restart services:
+
+```bash
+docker compose restart
+```
+
+---
+
+## 📌 Community Notes
+
+This repository is part of my QoreChain learning and community support work.
+
+I use this fork to:
+
+- Test light node setup flows
+- Collect useful commands
+- Help community members with node questions
+- Improve my understanding of post-quantum blockchain infrastructure
+
+---
+
+## 🔗 Official Repository
+
+Original project:
+
+```text
+https://github.com/qorechain/qorechain-lightnode
+```
+
+---
+
+## 📄 License
 
 Apache 2.0
