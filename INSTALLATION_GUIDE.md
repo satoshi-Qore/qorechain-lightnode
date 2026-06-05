@@ -1,8 +1,8 @@
 # QoreChain Light Node Installation Guide
 
-This guide explains the basic setup flow for running a QoreChain Light Node from this fork.
+This guide explains the basic setup flow for running a QoreChain Light Node.
 
-> Maintained by **Satoshi-Qore** as part of QoreChain community support and infrastructure learning.
+> This is a community documentation contribution. Always check official QoreChain sources and current announcements for production instructions.
 
 ---
 
@@ -16,16 +16,18 @@ Before starting, make sure your system has:
 - Git installed
 - Basic terminal access
 
-For VPS usage, Ubuntu is recommended for beginners.
+For VPS usage, Ubuntu is commonly used by beginners.
 
 ---
 
 ## 2. Clone the Repository
 
 ```bash
-git clone https://github.com/satoshi-Qore/qorechain-lightnode.git
+git clone https://github.com/qorechain/qorechain-lightnode.git
 cd qorechain-lightnode
 ```
+
+If you are testing changes from a fork, replace the repository URL with the fork URL.
 
 ---
 
@@ -123,10 +125,4 @@ This verifies that the post-quantum cryptography stack is working correctly.
 
 ## 10. Notes
 
-This guide is intended for community learning and support. Always check the official QoreChain documentation and repository for the latest production instructions.
-
-Official repository:
-
-```text
-https://github.com/qorechain/qorechain-lightnode
-```
+This guide is intended for learning and operator onboarding. Network-specific values such as RPC endpoints, chain IDs, ports, and production settings should be verified against current official QoreChain sources before use.
