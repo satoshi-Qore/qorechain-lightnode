@@ -7,14 +7,13 @@ Possible reasons:
 - Dashboard cache
 - Transaction indexing not completed yet
 
-## Why does a light node require 1000 QOR?
+Wait a short time, refresh the dashboard, and verify the transaction status using the currently recommended explorer or official community instructions.
 
-The stake helps:
-- Prevent Sybil attacks
-- Align operators with network success
-- Support responsible participation
+## Where can I find the correct RPC endpoint?
 
-The stake is locked while operating and can be recovered when the node is shut down.
+Use the official QoreChain documentation, repository notes, or current team announcements for the latest RPC endpoint and chain configuration values.
+
+Avoid relying on old screenshots, cached messages, or unverified third-party endpoint lists.
 
 ## Why is X verification failing?
 
@@ -22,11 +21,19 @@ Common causes:
 - Verification performed too late
 - Post not indexed yet
 - Verification steps completed out of order
+- Account or post visibility settings preventing verification
+
+Repeat the steps carefully and allow time for indexing before retrying.
 
 ## Dashboard not loading?
 
 Check:
-- Port 8420 accessibility
+- Expected dashboard port
 - Container status
 - Firewall configuration
 - Docker logs
+- Whether the node is running in local-only mode
+
+## Should I use these notes for production setup?
+
+Treat this FAQ as community onboarding help. For production or mainnet-sensitive steps, confirm all values with official QoreChain sources first.
