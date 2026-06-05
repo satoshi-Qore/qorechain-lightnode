@@ -1,10 +1,10 @@
 # QoreChain Light Node example configuration
 
 [network]
-# Replace with the official QoreChain RPC endpoint when available.
-rpc_endpoint = "https://rpc.qorechain.io:26657"
+# Replace this placeholder with the current official QoreChain RPC endpoint.
+rpc_endpoint = ""
 
-# Leave empty or adjust according to the active network.
+# Set this according to the active network configuration.
 chain_id = ""
 
 [node]
